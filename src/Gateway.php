@@ -4,8 +4,10 @@ namespace Omnipay\Windcave;
 
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Windcave\Message\CreateSessionRequest;
+use Omnipay\Windcave\Message\GetCardRequest;
 use Omnipay\Windcave\Message\GetSessionRequest;
 use Omnipay\Windcave\Message\PurchaseRequest;
+use Omnipay\Windcave\Message\TokenisedPurchaseRequest;
 
 /**
  * @method \Omnipay\Common\Message\RequestInterface authorize(array $options = array())         (Optional method)
@@ -55,10 +57,11 @@ class Gateway extends AbstractGateway
 
     public function getDefaultParameters()
     {
-        return array(
-            'apiKey' => '',
-            'username'   => '',
-        );
+        return [
+            'apiKey'   => '',
+            'username' => '',
+            'testMode' => false
+        ];
     }
 
     /**
@@ -103,9 +106,21 @@ class Gateway extends AbstractGateway
      * @param array $parameters
      * @return \Omnipay\Windcave\Message\PurchaseRequest|\Omnipay\Common\Message\AbstractRequest
      */
-    public function purchase(array $parameters = array())
+    public function purchase(array $parameters = [])
     {
         return $this->createRequest(PurchaseRequest::class, $parameters);
+    }
+
+
+    /**
+     * TokenisedPurchase request
+     *
+     * @param array $parameters
+     * @return \Omnipay\Windcave\Message\TokenisedPurchaseRequest|\Omnipay\Common\Message\AbstractRequest
+     */
+    public function tokenisedPurchase(array $parameters = [])
+    {
+        return $this->createRequest(TokenisedPurchaseRequest::class, $parameters);
     }
 
     /**
@@ -114,7 +129,7 @@ class Gateway extends AbstractGateway
      * @param array $parameters
      * @return \Omnipay\Windcave\Message\CreateSessionRequest|\Omnipay\Common\Message\AbstractRequest
      */
-    public function createSession(array $parameters = array())
+    public function createSession(array $parameters = [])
     {
         return $this->createRequest(CreateSessionRequest::class, $parameters);
     }
@@ -125,8 +140,13 @@ class Gateway extends AbstractGateway
      * @param array $parameters
      * @return \Omnipay\Windcave\Message\GetSessionRequest|\Omnipay\Common\Message\AbstractRequest
      */
-    public function getSession(array $parameters = array())
+    public function getSession(array $parameters = [])
     {
         return $this->createRequest(GetSessionRequest::class, $parameters);
+    }
+
+    public function getCard(string $cardId)
+    {
+        return $this->createRequest(GetCardRequest::class, ['cardId' => $cardId]);
     }
 }

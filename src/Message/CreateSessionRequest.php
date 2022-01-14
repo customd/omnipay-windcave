@@ -19,14 +19,16 @@ class CreateSessionRequest extends AbstractRequest implements RequestInterface
      */
     public function getData()
     {
+
         $data = [
-            'type' => 'purchase',
-            'currency' => $this->getCurrency(),
-            'merchantReference' => substr($this->getMerchantReference(), 0, 64),
-            'storeCard' => 0,
-            'callbackUrls' => [
-                'approved' => 'http://example.com?status=approved',
-                'declined' => 'http://example.com?status=declined',
+            'type'               => $this->getType() ?? 'purchase',
+            'currency'           => $this->getCurrency(),
+            'merchantReference'  => substr($this->getMerchantReference(), 0, 64),
+            'storeCard'          => $this->getStoreCard() ?? 0,
+            'storeCardIndicator' => $this->getstoreCardIndicator() ?? 'single',
+            'callbackUrls'       => [
+                'approved'  => 'http://example.com?status=approved',
+                'declined'  => 'http://example.com?status=declined',
                 'cancelled' => 'http://example.com?status=cancelled',
             ],
         ];
@@ -40,6 +42,38 @@ class CreateSessionRequest extends AbstractRequest implements RequestInterface
         }
 
         return json_encode($data);
+    }
+
+
+
+    public function getType()
+    {
+        return $this->getParameter('type');
+    }
+
+    public function setType($value)
+    {
+        return $this->setParameter('type', $value);
+    }
+
+    public function getStoreCard()
+    {
+        return $this->getParameter('storeCard');
+    }
+
+    public function setStoreCard($value)
+    {
+        return $this->setParameter('storeCard', $value);
+    }
+
+    public function getStoreCardIndicator()
+    {
+        return $this->getParameter('storeCardIndicator');
+    }
+
+    public function setStoreCardIndicator($value)
+    {
+        return $this->setParameter('storeCardIndicator', $value);
     }
 
     /**

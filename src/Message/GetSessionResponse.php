@@ -50,12 +50,17 @@ class GetSessionResponse extends AbstractResponse
 
     protected function getTransactionData($key)
     {
-        if (empty($this->data['transactions'][0]) || !is_array($this->data['transactions'][0])) {
+        if (empty($this->data['transactions'][0]) || ! is_array($this->data['transactions'][0])) {
             return null;
         }
 
         $transaction = $this->data['transactions'][0];
 
         return isset($transaction[$key]) ? $transaction[$key] : null;
+    }
+
+    public function getCard()
+    {
+        return $this->getTransactionData('card');
     }
 }

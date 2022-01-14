@@ -35,7 +35,7 @@ class CreateSessionResponse extends AbstractResponse
     {
         $links = $this->getData('links');
         foreach ($links as $link) {
-            if ($link['rel'] === 'submitCard') {
+            if ($link['rel'] === 'submitCard' || $link['rel'] === 'ajaxSubmitCard') {
                 return $link['href'];
             }
         }
